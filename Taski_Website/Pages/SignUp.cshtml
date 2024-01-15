@@ -1,0 +1,50 @@
+﻿@page
+@model Taski_Website.Pages.SignUpModel
+@{
+}
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 left-column">
+
+                <!-- Left Column Content -->
+                <div class="image-container">
+                    <img src="~/images/Logo.png" alt="Logo" class="centered-image" />
+                </div>
+
+            </div>
+            <div class="col-md-6 right-column">
+                <!-- Right Column Content -->
+                <div class="login-container">
+                    <p class="login-heading">SIGN UP</p>
+                    <p class="signup-link">Already have an account? <a href="/Login">Log In</a></p>
+
+                    <div class="input-group">
+                        <label for="email" class="label">Please Enter Your Email Address</label>
+                        <input type="text" id="email" class="rounded-input" />
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password" class="label">Please Enter Your Password</label>
+                        <input type="password" id="password" class="rounded-input" />
+                    </div>
+
+                    <div class="input-group">
+                        <label for="role" class="label">Select Your Role</label>
+                        <select id="role" class="rounded-input">
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                        </select>
+                    </div>
+
+                    <button class="login-button">SIGN UP</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
