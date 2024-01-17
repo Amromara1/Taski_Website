@@ -1,7 +1,10 @@
+using Taski_Website.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<WebseiteContext>();
 
 var app = builder.Build();
 

@@ -22,16 +22,16 @@ body {
 }
 .col-md-6.left-column {
     background-color: rgb(0, 87, 255);
-    /* Add any additional styles as needed */
-    height: 100vh; /* Adjust the height as needed */
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.centered-image {
-    max-width: 100%;
-    max-height: 100%;
+.image-container {
+    max-width: 80%;
+    display: flex;
+    justify-content: center; /* Center the image horizontally */
 }
 
 .image-container {
@@ -101,4 +101,97 @@ body {
     background-size: cover;
     height: 100vh;
     
+}
+.col-md-6.TopRow {
+    background-color: rgb(0, 87, 255);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+
+/*Task page
+*/
+
+.grid-container {
+    display: grid;
+    grid-template-rows: auto 1fr; /* Top part takes its content, bottom part takes the rest */
+    grid-template-columns: 200px 1fr; /* Left part takes 200px, right part takes the rest */
+    height: 100vh;
+}
+
+.top-part {
+    grid-row: 1;
+    grid-column: span 2;
+    background-color: #f0f0f0;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bold;
+}
+
+.middle-part {
+    grid-row: 2;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column; /* Set to a single column */
+    gap: 10px;
+    padding: 10px;
+}
+
+.task-item {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+    .task-item:hover {
+        background-color: #f0f0f0;
+    }
+
+.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.add-task-button {
+    grid-column: span 2;
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.task-details {
+    grid-row: 2;
+    grid-column: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+#create-button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
