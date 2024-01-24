@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Taski_Website.Data;
 
@@ -10,9 +11,11 @@ using Taski_Website.Data;
 namespace Taski_Website.Migrations
 {
     [DbContext(typeof(WebseiteContext))]
-    partial class WebseiteContextModelSnapshot : ModelSnapshot
+    [Migration("20240123212055_NewUpdate1")]
+    partial class NewUpdate1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
@@ -42,14 +45,14 @@ namespace Taski_Website.Migrations
                         new
                         {
                             TaskId = 1,
-                            DueDate = new DateTime(2024, 1, 24, 22, 17, 11, 871, DateTimeKind.Local).AddTicks(2741),
+                            DueDate = new DateTime(2024, 1, 23, 22, 20, 54, 768, DateTimeKind.Local).AddTicks(6830),
                             TaskDescription = "Big Task 1",
                             TaskName = "Test Task 1"
                         },
                         new
                         {
                             TaskId = 2,
-                            DueDate = new DateTime(2024, 1, 24, 22, 17, 11, 871, DateTimeKind.Local).AddTicks(2792),
+                            DueDate = new DateTime(2024, 1, 23, 22, 20, 54, 768, DateTimeKind.Local).AddTicks(6938),
                             TaskDescription = "Big Task",
                             TaskName = "Test Task 2"
                         });
@@ -74,6 +77,10 @@ namespace Taski_Website.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
@@ -84,14 +91,16 @@ namespace Taski_Website.Migrations
                             UserId = 1,
                             Email = "Muster_Teacher@Taski.de",
                             Password = "123",
-                            Role = "Teacher"
+                            Role = "Teacher",
+                            UserName = "Muster_Teacher"
                         },
                         new
                         {
                             UserId = 2,
                             Email = "Muster_Student@Taski.de",
                             Password = "123",
-                            Role = "Student"
+                            Role = "Student",
+                            UserName = "Muster_Student"
                         });
                 });
 

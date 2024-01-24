@@ -1,25 +1,26 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
 .col-md-6.left-column {
     background-color: rgb(0, 87, 255);
     height: 100vh;
@@ -27,6 +28,11 @@ body {
     align-items: center;
     justify-content: center;
 }
+.col-md-6.right-column {
+    align-items: center;
+    justify-content: center;
+}
+
 
 .image-container {
     max-width: 80%;
@@ -66,10 +72,12 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
 .label {
     font-size: 20px;
     margin-bottom: 8px;
 }
+
 .rounded-input {
     padding: 8px;
     width: 100%;
@@ -92,16 +100,16 @@ body {
     padding-bottom: 10px;
     cursor: pointer;
     font-size: 42px;
-    
 }
+
 .right-column {
     background-image: url("../images/Muster.png");
     background-color: rgba(255, 255, 255, 0.2);
     background-repeat: repeat;
     background-size: cover;
     height: 100vh;
-    
 }
+
 .col-md-6.TopRow {
     background-color: rgb(0, 87, 255);
     height: 100vh;
@@ -111,24 +119,31 @@ body {
 }
 
 
+:root {
+    --teams-primary: #0078d4;
+    --teams-error: #e74c3c;
+}
 
-
-
-
-/*Task page
-*/
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+}
 
 .grid-container {
     display: grid;
-    grid-template-rows: auto 1fr; /* Top part takes its content, bottom part takes the rest */
-    grid-template-columns: 200px 1fr; /* Left part takes 200px, right part takes the rest */
-    height: 100vh;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 200px 1fr;
+    height: auto;
+    background-color: white;
+    max-height: 600px;
 }
 
 .top-part {
     grid-row: 1;
     grid-column: span 2;
-    background-color: #f0f0f0;
+    background-color: var(--teams-primary);
+    color: white;
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -143,10 +158,14 @@ body {
     grid-row: 2;
     grid-column: 1;
     display: flex;
-    flex-direction: column; /* Set to a single column */
+    flex-direction: column;
     gap: 10px;
     padding: 10px;
+    background-color: white;
+    overflow-y: auto;
 }
+
+
 
 .task-item {
     cursor: pointer;
@@ -154,14 +173,32 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background-color: white;
 }
 
     .task-item:hover {
         background-color: #f0f0f0;
     }
 
+.task-delete {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: grey;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+    .task-delete:hover {
+        color: red;
+    }
+
 .selected {
-    background-color: #007bff;
+    background-color: var(--teams-primary);
     color: white;
 }
 
@@ -169,7 +206,7 @@ body {
     grid-column: span 2;
     margin-top: 10px;
     padding: 8px;
-    background-color: #007bff;
+    background-color: var(--teams-primary);
     color: white;
     border: none;
     cursor: pointer;
@@ -181,17 +218,79 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    background-color: white;
 }
 
-label {
+.label {
     margin-bottom: 5px;
 }
 
-#create-button {
+.create-button {
     margin-top: 20px;
     padding: 10px;
-    background-color: #28a745;
+    background-color: var(--teams-primary);
     color: white;
     border: none;
     cursor: pointer;
 }
+
+.form-container {
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 20px;
+    margin-top: 2px;
+    width: stretch;
+}
+
+/* Input styles */
+.teams-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease-in-out;
+    
+}
+
+    .teams-input:focus {
+        outline: none;
+        border-color: var(--teams-primary);
+    }
+
+.teams-desc{
+        height: 300px;
+    }
+
+/* Error message styles */
+.teams-error {
+    color: var(--teams-error);
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Button styles */
+.teams-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.teams-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+}
+
+    .teams-button.btn-primary {
+        background-color: var(--teams-primary);
+    }
+
+    .teams-button.btn-danger {
+        background-color: var(--teams-error);
+    }

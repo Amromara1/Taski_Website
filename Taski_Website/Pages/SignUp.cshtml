@@ -17,34 +17,49 @@
                 </div>
 
             </div>
+
             <div class="col-md-6 right-column">
                 <!-- Right Column Content -->
-                <div class="login-container">
+
                     <p class="login-heading">SIGN UP</p>
                     <p class="signup-link">Already have an account? <a href="/Login">Log In</a></p>
 
+                 <form method="post" asp-page-handler="OnPostAsync">
                     <div class="input-group">
                         <label for="email" class="label">Please Enter Your Email Address</label>
-                        <input type="text" id="email" class="rounded-input" />
+                        <input type="text" id="email" asp-for="Email" class="rounded-input" />
+                        <span asp-validation-for="Email" class="teams-error"></span>
                     </div>
 
                     <div class="input-group">
                         <label for="password" class="label">Please Enter Your Password</label>
-                        <input type="password" id="password" class="rounded-input" />
+                        <div class="password-toggle">
+                            <input type="password" id="password" asp-for="Password" class="rounded-input" />
+                            <span asp-validation-for="Password" class="teams-error"></span>
+                            <input type="checkbox" onclick="togglePasswordVisibility(this)"> Show Password
+                        </div>
                     </div>
 
                     <div class="input-group">
                         <label for="role" class="label">Select Your Role</label>
-                        <select id="role" class="rounded-input">
+                        <select id="role" asp-for="Role" class="rounded-input">
                             <option value="student">Student</option>
                             <option value="teacher">Teacher</option>
                         </select>
                     </div>
 
-                    <button class="login-button">SIGN UP</button>
-                </div>
+                    <button class="login-button teams-button create-button btn btn-primary">SIGN UP</button>
+                </form>
             </div>
+
         </div>
     </div>
 </body>
+
+<script>
+    function togglePasswordVisibility(checkbox) {
+        var passwordInput = document.getElementById("password");
+        passwordInput.type = checkbox.checked ? "text" : "password";
+    }
+</script>
 </html>

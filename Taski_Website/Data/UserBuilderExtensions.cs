@@ -11,7 +11,7 @@ namespace Taski_Website.Data
                 new TaskiUser
                 {
                     UserId = 1,
-                    UserName = "Muster_Teacher",
+                    //UserName = "Muster_Teacher",
                     Email = "Muster_Teacher@Taski.de",
                     Password = "123",
                     Role = "Teacher",
@@ -19,7 +19,7 @@ namespace Taski_Website.Data
                 new TaskiUser
                 {
                     UserId = 2,
-                    UserName = "Muster_Student",
+                    //UserName = "Muster_Student",
                     Email = "Muster_Student@Taski.de",
                     Password = "123",
                     Role = "Student",

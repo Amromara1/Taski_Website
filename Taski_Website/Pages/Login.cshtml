@@ -25,18 +25,23 @@
                 <div class="login-container">
                     <p class="login-heading">LOG IN</p>
                     <p class="signup-link">Not Registered? <a href="/SignUP">Sign Up</a></p>
-
+                    <form method="post" asp-page-handler="OnPostAsync">
                     <div class="input-group">
-                        <label for="email" class="label">Please Enter Your Email Address</label>
-                        <input type="text" id="email" class="rounded-input" />
+                            <label for="email" class="label">Please Enter Your Email Address</label>
+                            <input type="text" id="email" asp-for="Email" class="rounded-input" />
+                            <span asp-validation-for="Email" class="teams-error"></span>
                     </div>
 
-                    <div class="input-group">
-                        <label for="password" class="label">Please Enter Your Password</label>
-                        <input type="password" id="password" class="rounded-input" />
-                    </div>
-
-                    <button class="login-button">LOG IN</button>
+                        <div class="input-group">
+                            <label for="password" class="label">Please Enter Your Password</label>
+                            <div class="password-toggle">
+                                <input type="password" id="password" asp-for="Password" class="rounded-input" />
+                                <span asp-validation-for="Password" class="teams-error"></span>
+                                <input type="checkbox" onclick="togglePasswordVisibility(this)"> Show Password
+                            </div>
+                        </div>
+                        <button class="login-button teams-button create-button btn btn-primary">LOG IN</button>
+                    </form>
                 </div>
         </div>
     </div>
@@ -44,4 +49,11 @@
 
 
 </body>
+
+<script>
+    function togglePasswordVisibility(checkbox) {
+        var passwordInput = document.getElementById("password");
+        passwordInput.type = checkbox.checked ? "text" : "password";
+    }
+</script>
 </html>

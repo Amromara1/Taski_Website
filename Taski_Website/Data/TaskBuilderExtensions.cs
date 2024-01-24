@@ -13,7 +13,7 @@ namespace Taski_Website.Data
                     TaskId = 1,
                     TaskName = "Test Task 1",
                     TaskDescription = "Big Task 1",
-                    TaskStatus = "Active",
+                    //TaskStatus = "Active",
                     DueDate = DateTime.Now,
                 },
                 new TaskiTask
@@ -21,7 +21,7 @@ namespace Taski_Website.Data
                     TaskId = 2,
                     TaskName = "Test Task 2",
                     TaskDescription = "Big Task",
-                    TaskStatus = "Failed",
+                    //TaskStatus = "Failed",
                     DueDate = DateTime.Now,
                 }
 

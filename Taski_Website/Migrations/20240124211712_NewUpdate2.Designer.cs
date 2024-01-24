@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Taski_Website.Data;
 
@@ -10,9 +11,11 @@ using Taski_Website.Data;
 namespace Taski_Website.Migrations
 {
     [DbContext(typeof(WebseiteContext))]
-    partial class WebseiteContextModelSnapshot : ModelSnapshot
+    [Migration("20240124211712_NewUpdate2")]
+    partial class NewUpdate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
