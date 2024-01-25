@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using System.ComponentModel.DataAnnotations;
 
 namespace Taski_Website.Model
 {
-    public class TaskiUser
+    public class TaskiUser 
     {
         [Key]
         public int UserId { get; set; }

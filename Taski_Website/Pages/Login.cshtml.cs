@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace Taski_Website.Pages
 {
     public class LoginModel : PageModel
     {
+       
         private WebseiteContext context;
         [BindProperty]
         public int UserId { get; set; }
@@ -21,8 +23,9 @@ namespace Taski_Website.Pages
         [BindProperty, Required]
         public string Password { get; set; }
 
-        public LoginModel(WebseiteContext webseitenContext)
+        public LoginModel( WebseiteContext webseitenContext)
         {
+            
             this.context = webseitenContext;
         }
         public List<TaskiUser> Users { get; set; } = new();
@@ -38,7 +41,7 @@ namespace Taski_Website.Pages
                 return Page();
             }
 
-            var existingUser = await context.Users.FirstOrDefaultAsync(u => u.Email == Email);
+            TaskiUser existingUser = await context.Users.FirstOrDefaultAsync(u => u.Email == Email);
             if (existingUser != null)
             {
                 bool CorrectPass = Encryption.VerifyPassword(this.Password, existingUser.Password);
@@ -49,6 +52,8 @@ namespace Taski_Website.Pages
                 }
                 else
                 {
+                    HttpContext.Session.SetInt32("UserId", existingUser.UserId);
+                    HttpContext.Session.SetString("UserEmail", existingUser.Email);
                     return RedirectToPage("Task");
                 }
                 

@@ -1,13 +1,16 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Metrics;
+using System.Security.Claims;
 using Taski_Website.Data;
 using Taski_Website.Model;
 
 namespace Taski_Website.Pages
 {
+    //[Authorize]
     public class TaskModel : PageModel
     {
         private WebseiteContext context;
@@ -25,13 +28,15 @@ namespace Taski_Website.Pages
             this.context = webseitenContext;
         }
         public List<TaskiTask> Tasks { get; set; } = new();
+        public string UserEmail { get; private set; }
 
         public async Task OnGetAsync()
         {
-            
+
             //IQueryable<TaskiTask> query = context.Tasks;
 
             // Execute the final query
+            UserEmail = HttpContext.Session.GetString("UserEmail") ?? "";
             Tasks = await context.Tasks.ToListAsync();
         }
         public async Task<IActionResult> OnPostAsync()

@@ -92,8 +92,6 @@
                     descriptionInput.value = description;
                     dueDateInput.value = dueDate;
                     taskIdInput.value = taskId;
-
-                    formButton.innerText = "Accept editings";
                 }
             });
             // Add click event listener to "Add New Task" button
@@ -109,8 +107,6 @@
                 Array.from(taskList.getElementsByClassName('task-item')).forEach(item => {
                     item.classList.remove('selected');
                 });
-
-                formButton.innerText = "Create the Task";
             });
         });
 
