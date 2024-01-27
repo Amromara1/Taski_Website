@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Security.Claims;
 using Taski_Website.Data;
 using Taski_Website.Model;
 
@@ -11,7 +14,7 @@ namespace Taski_Website.Pages
 {
     public class LoginModel : PageModel
     {
-       
+        private SignInManager<TaskiUser> signInManager;
         private WebseiteContext context;
         [BindProperty]
         public int UserId { get; set; }
@@ -23,9 +26,9 @@ namespace Taski_Website.Pages
         [BindProperty, Required]
         public string Password { get; set; }
 
-        public LoginModel( WebseiteContext webseitenContext)
+        public LoginModel(SignInManager<TaskiUser> signInManager, WebseiteContext webseitenContext)
         {
-            
+            signInManager = signInManager;
             this.context = webseitenContext;
         }
         public List<TaskiUser> Users { get; set; } = new();
@@ -52,8 +55,17 @@ namespace Taski_Website.Pages
                 }
                 else
                 {
-                    HttpContext.Session.SetInt32("UserId", existingUser.UserId);
-                    HttpContext.Session.SetString("UserEmail", existingUser.Email);
+                    var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, existingUser.UserId.ToString()));
+                    identity.AddClaim(new Claim(ClaimTypes.Email, existingUser.Email));
+                    identity.AddClaim(new Claim(ClaimTypes.Role, existingUser.Role));
+                    identity.AddClaim(new Claim(ClaimTypes.Name, existingUser.UserName));
+
+                    var principal = new ClaimsPrincipal(identity);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    //HttpContext.Session.SetInt32("UserId", existingUser.UserId);
+                    //HttpContext.Session.SetString("UserEmail", existingUser.Email);
                     return RedirectToPage("Task");
                 }
                 

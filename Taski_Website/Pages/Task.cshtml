@@ -10,51 +10,62 @@
     <title>Taski Task</title>
 </head>
 <body>
-
+    @{
+        string _userRole = Model.UserRole;
+        bool _isReadOnly = (_userRole == "teacher") ? false : true;
+        bool _isvisible = (_userRole == "teacher") ? true : false;
+    }
     <div class="grid-container">
         <div class="top-part">
-            <div class="logo">Your Logo</div>
-            <div class="greeting">Hello</div>
+            <div class="greeting">Hello @Model.UserName </div>
+            <div class="greeting">Role @Model.UserRole </div>
         </div>
 
         <div class="middle-part" id="taskList">
             @foreach (var task in Model.Tasks)
             {
                 <div class="task-item-container">
-                    <form method="post" asp-page-handler="Delete">
-                        <button class="btn btn-danger" type="submit" name="TaskId" value=@task.TaskId>X</button>
+                    <form method="post" asp-page-handler="Delete" >
+                        <button class="btn btn-danger" type="submit" name="TaskId" value=@task.TaskId style="@(_isvisible ? "display: block;" : "display: none;")">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </button>
                     </form>
                     <div class="task-item" data-taskid="@task.TaskId" data-title="@task.TaskName" data-description="@task.TaskDescription" data-dueDate="@task.DueDate.ToString("yyyy-MM-dd")">
                         <span class="task-name">@task.TaskName</span>
                     </div>
                 </div>
             }
-            <button class="add-task-button">Add New Task</button>
+            <button class="add-task-button" style="@(_isvisible ? "display: block;" : "display: none;")">
+                <span class="material-symbols-outlined">
+                    add_task
+                </span> Add New Task
+            </button>
         </div>
 
         <div class="form-container" >
         <form method="post" asp-page-handler="OnPostAsync" class="col-9">
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" id="title" asp-for="Title" class="form-control teams-input" />
-                <span asp-validation-for="Title" class="teams-error"></span>
+                    <input type="text" id="title" asp-for="Title" class="form-control teams-input" readonly="@_isReadOnly" />
+                    <span asp-validation-for="Title" class="teams-error"></span>
             </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
-                    <textarea id="description" asp-for="Description" class="form-control teams-input teams-desc"></textarea>
+                    <textarea id="description" asp-for="Description" class="form-control teams-input teams-desc" readonly="@_isReadOnly"></textarea>
                 <span asp-validation-for="Description" class="teams-error"></span>
             </div>
 
             <div class="form-group">
                 <label for="dueDate">Due Date</label>
-                <input type="date" id="dueDate" asp-for="DueDate" class="form-control teams-input" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    <input type="date" id="dueDate" asp-for="DueDate" class="form-control teams-input" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly="@_isReadOnly" />
                 <span asp-validation-for="DueDate" class="teams-error"></span>
             </div>
 
             <div class="teams-actions">
-                <button class="teams-button create-button btn btn-primary">Finish</button>
-                <!-- Add your delete button here if needed -->
+                    <button class="teams-button create-button btn btn-primary" style="@(_isvisible ? "display: block;" : "display: none;")">Finish</button>
             </div>
         </form>
         </div>
@@ -109,8 +120,6 @@
                 });
             });
         });
-
-
 
     </script>
 

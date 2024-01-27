@@ -10,7 +10,7 @@ using Taski_Website.Model;
 
 namespace Taski_Website.Pages
 {
-    //[Authorize]
+    [Authorize]
     public class TaskModel : PageModel
     {
         private WebseiteContext context;
@@ -28,15 +28,21 @@ namespace Taski_Website.Pages
             this.context = webseitenContext;
         }
         public List<TaskiTask> Tasks { get; set; } = new();
+        public string UserId { get; private set; }
         public string UserEmail { get; private set; }
-
+        public string UserName { get; private set; }
+        public string UserRole { get; private set; }
         public async Task OnGetAsync()
         {
 
             //IQueryable<TaskiTask> query = context.Tasks;
+            UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            UserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            UserRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            UserName = User.FindFirst(ClaimTypes.Name)?.Value;
 
             // Execute the final query
-            UserEmail = HttpContext.Session.GetString("UserEmail") ?? "";
+            //UserEmail = HttpContext.Session.GetString("UserEmail") ?? "";
             Tasks = await context.Tasks.ToListAsync();
         }
         public async Task<IActionResult> OnPostAsync()

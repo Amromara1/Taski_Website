@@ -18,7 +18,8 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
 }
 
 .col-md-6.left-column {
@@ -294,3 +295,48 @@ body {
     .teams-button.btn-danger {
         background-color: var(--teams-error);
     }
+
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.user-details {
+    font-family: 'Arial', sans-serif;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.user-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.user-info {
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 15px;
+}
+
+.logout-btn,
+.delete-btn {
+    font-family: 'Arial', sans-serif;
+    width: 100%;
+    margin-top: 10px;
+}
+.jumbotron {
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.btn-primary,
+.btn-secondary {
+    margin-top: 20px;
+}

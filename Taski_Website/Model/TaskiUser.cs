@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Taski_Website.Model
 {
-    public class TaskiUser 
+    public class TaskiUser : IdentityUser<int>
     {
         [Key]
         public int UserId { get; set; }

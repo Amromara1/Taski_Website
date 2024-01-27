@@ -25,9 +25,11 @@ namespace Taski_Website.Pages
         public string Password { get; set; }
 
 
-        [BindProperty, Required]
+        [BindProperty, Required]        
         public string Role { get; set; }
 
+        [BindProperty, Required, Display(Name = "Please add a Username")]
+        public string UserName { get; set; }
 
         public SignUpModel(WebseiteContext webseitenContext)
         {
@@ -58,13 +60,14 @@ namespace Taski_Website.Pages
             {
                 Email = Email,
                 Password = Encryption.EncryptPassword(Password),
-                Role = Role
+                Role = Role,
+                UserName = UserName
             };
 
             await context.Users.AddAsync(newUser);
             await context.SaveChangesAsync();
 
-            return RedirectToPage("Task");
+            return RedirectToPage("Login");
         }
 
     }

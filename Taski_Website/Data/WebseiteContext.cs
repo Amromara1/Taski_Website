@@ -9,15 +9,21 @@ namespace Taski_Website.Data
         public DbSet<TaskiTask> Tasks { get; set; }
         public DbSet<TaskiUser> Users { get; set; }
 
+        public WebseiteContext(DbContextOptions<WebseiteContext> options) : base(options)
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data source=TaskiWebsite.db");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite(@"Data source=TaskiWebsite.db");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new UserConfiguration()).UserSeed();
-            modelBuilder.ApplyConfiguration(new UserConfiguration()).TaskSeed();
+            //modelBuilder.ApplyConfiguration(new UserConfiguration()).UserSeed();
+            //modelBuilder.ApplyConfiguration(new UserConfiguration()).TaskSeed();
 
             modelBuilder.Entity<UserTask>()
                 .HasOne(s => s.Task)

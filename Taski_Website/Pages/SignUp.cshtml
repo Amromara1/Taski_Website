@@ -26,6 +26,11 @@
 
                  <form method="post" asp-page-handler="OnPostAsync">
                     <div class="input-group">
+                        <label for="UserName" class="label">Please Enter Your Username</label>
+                        <input type="text" id="UserName" asp-for="UserName" class="rounded-input" />
+                        <span asp-validation-for="UserName" class="teams-error"></span>
+                    </div>
+                    <div class="input-group">
                         <label for="email" class="label">Please Enter Your Email Address</label>
                         <input type="text" id="email" asp-for="Email" class="rounded-input" />
                         <span asp-validation-for="Email" class="teams-error"></span>
