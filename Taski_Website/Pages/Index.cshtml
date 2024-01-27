@@ -1,10 +1,20 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Taski Project Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container text-center">
+    <div class="jumbotron">
+        <a href="/Task">
+            <img src="~/images/Logo.png" alt="Taski_Website Logo" style="max-height: 300px;" />
+        </a>
+        <p class="lead">Efficient Task Management for Everyone</p>
+        <hr class="my-4">
+        <p>Taski Project is a platform designed to streamline task management, making it easy for individuals and teams to stay organized and productive.</p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/Login" role="button">Login</a>
+            <a class="btn btn-secondary btn-lg" href="/Signup" role="button">Signup</a>
+        </p>
+    </div>
 </div>

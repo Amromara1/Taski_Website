@@ -1,22 +1,342 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.col-md-6.left-column {
+    background-color: rgb(0, 87, 255);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.col-md-6.right-column {
+    align-items: center;
+    justify-content: center;
+}
+
+
+.image-container {
+    max-width: 80%;
+    display: flex;
+    justify-content: center; /* Center the image horizontally */
+}
+
+.image-container {
+    max-width: 80%;
+}
+
+.login-container {
+    font-family: Arial;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+    padding: 20px;
+}
+
+.login-heading {
+    font-family: Arial;
+    font-size: 72px;
+}
+
+.signup-link {
+    color: grey;
+    font-size: 20px;
+    margin-top: 1px;
+    margin-bottom: 70px;
+}
+
+.input-group {
+    font-size: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.rounded-input {
+    padding: 8px;
+    width: 100%;
+    background: rgb(240, 240, 240);
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    align-items: center;
+    margin-bottom: 70px;
+    display: flex;
+}
+
+.login-button {
+    background-color: rgb(0, 87, 255);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    font-size: 42px;
+}
+
+.right-column {
+    background-image: url("../images/Muster.png");
+    background-color: rgba(255, 255, 255, 0.2);
+    background-repeat: repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.col-md-6.TopRow {
+    background-color: rgb(0, 87, 255);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+:root {
+    --teams-primary: #0078d4;
+    --teams-error: #e74c3c;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 200px 1fr;
+    height: auto;
+    background-color: white;
+    max-height: 600px;
+}
+
+.top-part {
+    grid-row: 1;
+    grid-column: span 2;
+    background-color: var(--teams-primary);
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bold;
+}
+
+.middle-part {
+    grid-row: 2;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    background-color: white;
+    overflow-y: auto;
+}
+
+
+
+.task-item {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+    .task-item:hover {
+        background-color: #f0f0f0;
+    }
+
+.task-delete {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: grey;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+    .task-delete:hover {
+        color: red;
+    }
+
+.selected {
+    background-color: var(--teams-primary);
+    color: white;
+}
+
+.add-task-button {
+    grid-column: span 2;
+    margin-top: 10px;
+    padding: 8px;
+    background-color: var(--teams-primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.task-details {
+    grid-row: 2;
+    grid-column: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.label {
+    margin-bottom: 5px;
+}
+
+.create-button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--teams-primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.form-container {
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 20px;
+    margin-top: 2px;
+    width: stretch;
+}
+
+/* Input styles */
+.teams-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease-in-out;
+    
+}
+
+    .teams-input:focus {
+        outline: none;
+        border-color: var(--teams-primary);
+    }
+
+.teams-desc{
+        height: 300px;
+    }
+
+/* Error message styles */
+.teams-error {
+    color: var(--teams-error);
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Button styles */
+.teams-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.teams-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+}
+
+    .teams-button.btn-primary {
+        background-color: var(--teams-primary);
+    }
+
+    .teams-button.btn-danger {
+        background-color: var(--teams-error);
+    }
+
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.user-details {
+    font-family: 'Arial', sans-serif;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.user-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.user-info {
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 15px;
+}
+
+.logout-btn,
+.delete-btn {
+    font-family: 'Arial', sans-serif;
+    width: 100%;
+    margin-top: 10px;
+}
+.jumbotron {
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.btn-primary,
+.btn-secondary {
+    margin-top: 20px;
 }

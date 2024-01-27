@@ -1,0 +1,49 @@
+﻿@page
+@model Taski_Website.Pages.UserModel
+@{
+}
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<div class="user-details">
+    <h2>User Details</h2>
+
+    <!-- User Image -->
+    <div>
+        <img src="@Model.UserImage" alt="Person Image" class="user-image" />
+    </div>
+
+    <!-- Username -->
+    <div class="user-info">
+        <label>Username:</label>
+        <span>@User.Identity.Name</span>
+    </div>
+
+    <!-- Email Address -->
+    <div class="user-info">
+        <label>Email Address:</label>
+        <span>@Model.UserEmail</span>
+    </div>
+
+    <!-- Logout -->
+    <div>
+        <form method="post" asp-page-handler="Logout">
+            <button type="submit" class="btn btn-primary logout-btn">
+                <span class="material-symbols-outlined">
+                    logout
+                </span> Logout
+            </button>
+        </form>
+    </div>
+
+    <!-- Delete Account -->
+    <div>
+        <form method="post" asp-page-handler="DeleteAccount">
+            <button type="submit" class="btn btn-danger delete-btn">
+                <span class="material-symbols-outlined">
+                    delete_forever
+                </span> Delete Account
+            </button>
+        </form>
+    </div>
+</div>
