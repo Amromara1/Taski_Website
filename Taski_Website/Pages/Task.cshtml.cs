@@ -34,7 +34,10 @@ namespace Taski_Website.Pages
             {
                 if (_assignedUserIds == null)
                 {
-                    _assignedUserIds = AssignedUserIds?.Split("-").Select(idStr => int.Parse(idStr)).ToList() ?? new List<int>();
+                    _assignedUserIds = AssignedUserIds?.Split("-")
+                        .Where(idStr => !string.IsNullOrWhiteSpace(idStr) && int.TryParse(idStr, out int userId))
+                        .Select(userId => int.Parse(userId))
+                        .ToList() ?? new List<int>();
                 }
                 return _assignedUserIds;
             }
@@ -63,7 +66,12 @@ namespace Taski_Website.Pages
 
             // Execute the final query
             //UserEmail = HttpContext.Session.GetString("UserEmail") ?? "";
-            Tasks = await context.Tasks.ToListAsync();
+            var AllTasks = await context.Tasks.ToListAsync();
+            var TasksStudent = await context.UserTask
+            .Where(ut => ut.UserId == int.Parse(UserId))
+            .Select(ut => ut.Task)
+            .ToListAsync();
+            Tasks = (UserRole == "teacher")? AllTasks: TasksStudent;
             Students = await context.Users.Where(Stu => Stu.Role == "student").ToListAsync();
             
         }
@@ -71,6 +79,10 @@ namespace Taski_Website.Pages
         {
             var test1 = AssignedUserIdsList;
             var test = TaskId;
+            if (!ModelState.IsValid)
+            {
+                return RedirectToPage("Task");
+            }
             if (TaskId == 0)
             {
                 var Task = new TaskiTask();
@@ -80,30 +92,28 @@ namespace Taski_Website.Pages
                 Task.DueDate = this.DueDate;
 
 
-                //if (!ModelState.IsValid)
-                //{
-                //    return Page();
-                //}
-
-                await this.context.Tasks.AddAsync(Task);
-
-                Students = await context.Users
-                                         .Where(Stu => Stu.Role == "student" && (AssignedUserIdsList == null || AssignedUserIdsList.Contains(Stu.UserId)))
-                                         .ToListAsync();
-
-                if (Students != null && Students.Any())
+                if (Task.TaskId != null && Task.TaskName != null && Task.TaskDescription != null && Task.DueDate != null)
                 {
-                    // Add logic to assign the task to selected users
-                    foreach (var student in Students)
+                    await this.context.Tasks.AddAsync(Task);
+
+                    Students = await context.Users
+                                             .Where(Stu => Stu.Role == "student" && (AssignedUserIdsList == null || AssignedUserIdsList.Contains(Stu.UserId)))
+                                             .ToListAsync();
+
+                    if (Students != null && Students.Any())
                     {
-                        // Create a UserTask entity and save it to the database
-                        var userTask = new UserTask { UserId = student.UserId, TaskId = Task.TaskId }; 
-                        context.UserTask.Add(userTask);
+                        // Add logic to assign the task to selected users
+                        foreach (var student in Students)
+                        {
+                            // Create a UserTask entity and save it to the database
+                            var userTask = new UserTask { UserId = student.UserId, TaskId = Task.TaskId };
+                            context.UserTask.Add(userTask);
+                        }
+
                     }
 
+                    await this.context.SaveChangesAsync(); 
                 }
-
-                await this.context.SaveChangesAsync();
 
             }
             else
@@ -111,32 +121,35 @@ namespace Taski_Website.Pages
                 TaskiTask existingTask = await this.context.Tasks.FindAsync(this.TaskId);
                 if (existingTask != null)
                 {
-                    // If the task with the given TaskId exists, update it
-                    existingTask.TaskName = this.Title;
-                    existingTask.TaskDescription = this.Description;
-                    existingTask.DueDate = this.DueDate;
-
-                    // Update UserTask relationships
-                    var existingUserTasks = context.UserTask.Where(ut => ut.TaskId == existingTask.TaskId).ToList();
-
-                    // Remove existing relationships
-                    context.UserTask.RemoveRange(existingUserTasks);
-
-                    // Add new relationships based on selected users
-                    Students = await context.Users
-                                             .Where(Stu => Stu.Role == "student" && (AssignedUserIdsList == null || AssignedUserIdsList.Contains(Stu.UserId)))
-                                             .ToListAsync();
-
-                    if (Students != null && Students.Any())
+                    if ( this.Title != null && this.Description != null && this.DueDate != null)
                     {
-                        foreach (var student in Students)
-                        {
-                            var newUserTask = new UserTask { UserId = student.UserId, TaskId = existingTask.TaskId };
-                            context.UserTask.Add(newUserTask);
-                        }
-                    }
+                        // If the task with the given TaskId exists, update it
+                        existingTask.TaskName = this.Title;
+                        existingTask.TaskDescription = this.Description;
+                        existingTask.DueDate = this.DueDate;
 
-                    await this.context.SaveChangesAsync();
+                        // Update UserTask relationships
+                        var existingUserTasks = context.UserTask.Where(ut => ut.TaskId == existingTask.TaskId).ToList();
+
+                        // Remove existing relationships
+                        context.UserTask.RemoveRange(existingUserTasks);
+
+                        // Add new relationships based on selected users
+                        Students = await context.Users
+                                                 .Where(Stu => Stu.Role == "student" && (AssignedUserIdsList == null || AssignedUserIdsList.Contains(Stu.UserId)))
+                                                 .ToListAsync();
+
+                        if (Students != null && Students.Any())
+                        {
+                            foreach (var student in Students)
+                            {
+                                var newUserTask = new UserTask { UserId = student.UserId, TaskId = existingTask.TaskId };
+                                context.UserTask.Add(newUserTask);
+                            }
+                        }
+
+                        await this.context.SaveChangesAsync(); 
+                    }
                 }
             }
 
