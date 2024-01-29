@@ -79,10 +79,10 @@ namespace Taski_Website.Pages
         {
             var test1 = AssignedUserIdsList;
             var test = TaskId;
-            if (!ModelState.IsValid)
-            {
-                return RedirectToPage("Task");
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return RedirectToPage("Task");
+            //}
             if (TaskId == 0)
             {
                 var Task = new TaskiTask();
