@@ -58,6 +58,7 @@ namespace Taski_Website.Pages
 
             var newUser = new TaskiUser
             {
+                UserId = this.context.Users.Max(x => x.UserId) + 1,
                 Email = Email,
                 Password = Encryption.EncryptPassword(Password),
                 Role = Role,
