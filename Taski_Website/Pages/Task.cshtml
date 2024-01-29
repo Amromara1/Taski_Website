@@ -22,7 +22,6 @@
             <div class="greeting">Hello @Model.UserName </div>
             <div class="greeting">@Model.UserRole Mode</div>
         </div>
-
         <div class="middle-part" id="taskList">
             @foreach (var task in Model.Tasks)
             {
@@ -58,7 +57,7 @@
         <div class="form-container" >
             <form method="post" asp-page-handler="OnPostAsync" class="col-9">
               
-                <input id="taskId" asp-for="TaskId" name="TaskId" />
+                <input type = "hidden" id="taskId" asp-for="TaskId" name="TaskId" />
                 <div class="form-group">
                 <label for="title">Title</label>
                     <input type="text" id="title" asp-for="Title" class="form-control teams-input" readonly="@_isReadOnly" />
@@ -99,7 +98,7 @@
                         </div>
                     </div>
 
-                    <input id="AssignedUserIds" asp-for="AssignedUserIds" name="AssignedUserIds" />
+                    <input type = "hidden" id="AssignedUserIds" asp-for="AssignedUserIds" name="AssignedUserIds" />
                 </div>
 
                 <button type="submit" class="teams-button create-button btn btn-primary finish-button" style="@(_isvisible ? "display: block;" : "display: none;")">Finish</button>
