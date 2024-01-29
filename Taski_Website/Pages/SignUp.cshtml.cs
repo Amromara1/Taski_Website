@@ -69,6 +69,5 @@ namespace Taski_Website.Pages
 
             return RedirectToPage("Login");
         }
-
     }
 }
