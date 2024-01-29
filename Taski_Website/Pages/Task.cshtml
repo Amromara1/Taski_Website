@@ -20,26 +20,32 @@
     <div class="grid-container">
         <div class="top-part">
             <div class="greeting">Hello @Model.UserName </div>
-            <div class="greeting">Role @Model.UserRole </div>
+            <div class="greeting">@Model.UserRole Mode</div>
         </div>
 
         <div class="middle-part" id="taskList">
             @foreach (var task in Model.Tasks)
             {
                 <div class="task-item-container">
+                    @{
+                        var assignedUsers = await Model.GetUsersForTask(task.TaskId);
+                        var taskStatus = DetermineTaskStatus(task.DueDate);
+                    }
                     <form method="post" asp-page-handler="Delete" >
                         <button class="btn btn-danger" type="submit" name="TaskId" value=@task.TaskId style="@(_isvisible ? "display: block;" : "display: none;")">
                             <span class="material-symbols-outlined">
                                 delete
                             </span>
                         </button>
+                        <div class="task-status">
+                            <span class="status-label @GetStatusColor(taskStatus)">@taskStatus</span>
+                        </div>
                     </form>
-                    @{
-                        var assignedUsers = await Model.GetUsersForTask(task.TaskId);
-                    }
+
                     <div class="task-item" data-taskid="@task.TaskId" data-title="@task.TaskName" data-description="@task.TaskDescription" data-dueDate="@task.DueDate.ToString("yyyy-MM-dd")" data-users="@assignedUsers">
                         <span class="task-name">@task.TaskName</span>
                     </div>
+
                 </div>
             }
             <button class="add-task-button" style="@(_isvisible ? "display: block;" : "display: none;")">
@@ -71,7 +77,7 @@
                 <span asp-validation-for="DueDate" class="teams-error"></span>
             </div>
 
-                <div>
+                <div style="@(_isvisible ? "display: block;" : "display: none;")">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="assignForEveryoneToggle" onchange="toggleAssignButtonVisibility()" checked>
                         <label class="form-check-label" for="assignForEveryoneToggle">Hide Users</label>
@@ -134,6 +140,46 @@
         </div>
     </div> *@
 
+
+    @functions {
+        string DetermineTaskStatus(DateTime dueDate)
+        {
+            // Assuming dueDate is a DateTime variable 10 days as assumptio
+            DateTime tenDaysBeforeDueDate = dueDate.AddDays(-10);
+            if (DateTime.Now < tenDaysBeforeDueDate)
+            {
+                return "Pending";
+            }
+            else if (DateTime.Now >= tenDaysBeforeDueDate && DateTime.Now < dueDate)
+            {
+                return "Started";
+            }
+            else if (DateTime.Now >= dueDate)
+            {
+                return "Completed";
+            }
+            else
+            {
+                return "Not defined";
+            }
+        }
+
+        string GetStatusColor(string status)
+        {
+            // Add your logic to determine color based on status
+            switch (status)
+            {
+                case "Pending":
+                    return "text-warning";
+                case "Started":
+                    return "text-primary";
+                case "Completed":
+                    return "text-success";
+                default:
+                    return "text-primary";
+            }
+        }
+    }
 
 
     <script>
