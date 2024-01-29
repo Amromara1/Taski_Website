@@ -8,7 +8,7 @@ namespace Taski_Website.Data
     {
         public DbSet<TaskiTask> Tasks { get; set; }
         public DbSet<TaskiUser> Users { get; set; }
-
+        public DbSet<UserTask> UserTask { get; set; }
         public WebseiteContext(DbContextOptions<WebseiteContext> options) : base(options)
         {
         }

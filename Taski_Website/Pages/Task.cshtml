@@ -7,6 +7,8 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>Taski Task</title>
 </head>
 <body>
@@ -32,7 +34,10 @@
                             </span>
                         </button>
                     </form>
-                    <div class="task-item" data-taskid="@task.TaskId" data-title="@task.TaskName" data-description="@task.TaskDescription" data-dueDate="@task.DueDate.ToString("yyyy-MM-dd")">
+                    @{
+                        var assignedUsers = await Model.GetUsersForTask(task.TaskId);
+                    }
+                    <div class="task-item" data-taskid="@task.TaskId" data-title="@task.TaskName" data-description="@task.TaskDescription" data-dueDate="@task.DueDate.ToString("yyyy-MM-dd")" data-users="@assignedUsers">
                         <span class="task-name">@task.TaskName</span>
                     </div>
                 </div>
@@ -45,35 +50,129 @@
         </div>
 
         <div class="form-container" >
-        <form method="post" asp-page-handler="OnPostAsync" class="col-9">
-            <div class="form-group">
+            <form method="post" asp-page-handler="OnPostAsync" class="col-9">
+              
+                <input id="taskId" asp-for="TaskId" name="TaskId" />
+                <div class="form-group">
                 <label for="title">Title</label>
                     <input type="text" id="title" asp-for="Title" class="form-control teams-input" readonly="@_isReadOnly" />
                     <span asp-validation-for="Title" class="teams-error"></span>
             </div>
 
-            <div class="form-group">
+                <div class="form-group">
                 <label for="description">Description</label>
                     <textarea id="description" asp-for="Description" class="form-control teams-input teams-desc" readonly="@_isReadOnly"></textarea>
                 <span asp-validation-for="Description" class="teams-error"></span>
             </div>
 
-            <div class="form-group">
+                <div class="form-group">
                 <label for="dueDate">Due Date</label>
                     <input type="date" id="dueDate" asp-for="DueDate" class="form-control teams-input" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly="@_isReadOnly" />
                 <span asp-validation-for="DueDate" class="teams-error"></span>
             </div>
 
-            <div class="teams-actions">
-                    <button class="teams-button create-button btn btn-primary" style="@(_isvisible ? "display: block;" : "display: none;")">Finish</button>
-            </div>
-        </form>
+                <div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="assignForEveryoneToggle" onchange="toggleAssignButtonVisibility()" checked>
+                        <label class="form-check-label" for="assignForEveryoneToggle">Hide Users</label>
+                    </div>
+
+                    <div class="user-list" id="assignTaskList" style="display: none">
+                        <div id="userListForm">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="checkAllUsers">
+                                <label class="form-check-label" for="checkAllUsers">Check All Users</label>
+                            </div>
+                            @foreach (var student in Model.Students)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="@student.UserName" id="checkbox_@student.UserId" data-users="@student.UserId" onchange="handleCheckboxChange()">
+                                    <label class="form-check-label" for="checkbox_@student.UserId">@student.UserName</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <input id="AssignedUserIds" asp-for="AssignedUserIds" name="AssignedUserIds" />
+                </div>
+
+                <button type="submit" class="teams-button create-button btn btn-primary finish-button" style="@(_isvisible ? "display: block;" : "display: none;")">Finish</button>
+            </form>
         </div>
+
     </div>
+
+
+@*     <div class="modal fade" id="assignTaskModal" tabindex="-1" aria-labelledby="assignTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="assignTaskModalLabel">Assign Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Select students:</p>
+                    @foreach(Taski_Website.Model.TaskiUser student in Model.Students)
+                    {
+                        
+                        var users = await Model.GetUsersForTask(Model.TaskId);
+                        bool Isassigned = (users.Contains(student.UserName));
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value=@student.UserName id=@student.UserId @(Isassigned ? "checked" : "")>
+                            <label class="form-check-label" for=@student>
+                                @student.UserName
+                            </label>
+                        </div>
+                        
+                    }
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="assignTask()">Assign Task</button>
+                </div>
+            </div>
+        </div>
+    </div> *@
 
 
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // Attach onchange event dynamically
+            const checkAllUsersCheckbox = document.getElementById('checkAllUsers');
+            if (checkAllUsersCheckbox) {
+                checkAllUsersCheckbox.addEventListener('change', checkAllUsers);
+            }
+
+            function checkAllUsers() {
+                const isChecked = checkAllUsersCheckbox.checked;
+                $('[id^="checkbox_"]').prop("checked", isChecked);
+                toggleAssignButtonVisibility();
+                handleCheckboxChange();
+            }
+
+        });
+
+
+        // document.addEventListener('DOMContentLoaded', function () {
+
+        //     function handleCheckboxChange() {
+        //         const checkedCheckboxes = Array.from(allUserCheckboxes).filter(checkbox => checkbox.checked);
+        //         const selectedUserIds = checkedCheckboxes.map(checkbox => checkbox.value).join('-');
+        //         assignedUserIdsInput.value = selectedUserIds;
+        //     }
+        // });
+
+        function handleCheckboxChange() {
+            const allUserCheckboxes = document.querySelectorAll('[id^="checkbox_"]');
+            const checkedCheckboxes = Array.from(allUserCheckboxes).filter(checkbox => checkbox.checked);
+            const selectedUserIds = checkedCheckboxes.map(checkbox => checkbox.getAttribute('data-users')).join('-');
+            const assignedUserIdsInput = document.getElementById('AssignedUserIds');
+            assignedUserIdsInput.value = selectedUserIds;
+        }
+
+
         document.addEventListener('DOMContentLoaded', function () {
             // Get task list and details elements
             const taskList = document.getElementById('taskList');
@@ -81,6 +180,10 @@
             const descriptionInput = document.getElementById('description');
             const dueDateInput = document.getElementById('dueDate');
             const taskIdInput = document.getElementById('taskId');
+            const assignedUserIdsInput = document.getElementById('AssignedUserIds');
+
+            // Add click event listener to "Finish" button
+
 
             // Add click event listener to task items
             taskList.addEventListener('click', function (event) {
@@ -97,14 +200,35 @@
                     const title = selectedTask.getAttribute('data-title');
                     const description = selectedTask.getAttribute('data-description');
                     const dueDate = selectedTask.getAttribute('data-dueDate');
+                    const assignedUserIds = selectedTask.getAttribute('data-users');
 
                     // Use the retrieved information as needed
                     titleInput.value = title;
                     descriptionInput.value = description;
                     dueDateInput.value = dueDate;
                     taskIdInput.value = taskId;
+                    assignedUserIdsInput.value = assignedUserIds;
+
+                    // Check checkboxes based on assignedUserIds
+                    const assignedUsersArray = (assignedUserIds && assignedUserIds.length > 0)
+                        ? assignedUserIds.split('-').filter(Boolean)
+                        : [];
+
+                    // Uncheck all checkboxes
+                    $('[id^="checkbox_"]').prop("checked", false);
+
+                    // Check checkboxes based on assignedUserIds
+                    assignedUsersArray.forEach(userId => {
+                        $(`#checkbox_${userId}`).prop("checked", true);
+                    });
+
+
+
+                    // Show the user list container
+                    $("#assignTaskList").show();
                 }
             });
+
             // Add click event listener to "Add New Task" button
             const addTaskButton = document.querySelector('.add-task-button');
             addTaskButton.addEventListener('click', function () {
@@ -113,15 +237,78 @@
                 descriptionInput.value = '';
                 dueDateInput.value = '';
                 taskIdInput.value = '';
+                assignedUserIdsInput.value = '';
 
                 // Remove the 'selected' class from all task items
                 Array.from(taskList.getElementsByClassName('task-item')).forEach(item => {
                     item.classList.remove('selected');
                 });
+
+                // Get the state of the checkAllUsersCheckbox
+                const checkAllUsersCheckbox = document.getElementById('checkAllUsers');
+
+                // Check/uncheck all user checkboxes based on the state of checkAllUsersCheckbox
+                checkAllUsersCheckbox.checked = true;
+                $('[id^="checkbox_"]').prop("checked", true);
+
+                // Update the visibility of the assign button
+                toggleAssignButtonVisibility();
+
+                // Handle checkbox change (if needed)
+                handleCheckboxChange();
             });
+
+
+
+
         });
 
+        // function toggleAssignButtonVisibility() {
+        //     const assignForEveryoneToggle = document.getElementById('assignForEveryoneToggle');
+        //     const assignTaskButton = document.getElementById('assignTaskList');
+
+        //     // Toggle button visibility based on the "Assign for Everyone" toggle
+        //     assignTaskButton.style.display = assignForEveryoneToggle.checked ? 'none' : 'block';
+        // }
+        function toggleAssignButtonVisibility() {
+            const assignForEveryoneToggle = document.getElementById('assignForEveryoneToggle');
+            const assignTaskList = document.getElementById('assignTaskList');
+
+            // Toggle button visibility based on the "Assign for Everyone" toggle
+            assignTaskList.style.display = assignForEveryoneToggle.checked ? 'none' : 'block';
+        }
+
+        function assignTask() {
+                // Add logic to handle task assignment based on selected users
+                const selectedUsers = document.getElementById('selectedUsers').value.split(',');
+
+                // Store the selected users in the hidden input field
+                document.getElementById('selectedUsers').value = selectedUsers.join(',');
+
+
+                // Add your logic for assigning the task to selected users
+
+                // Close the modal
+                $('.btn-secondary').trigger('click');
+            }
+
+        // const finishButton = document.querySelector('.finish-button');
+        // finishButton.addEventListener('click', function () {
+        //     // Gather checked checkboxes
+        //     const checkedCheckboxes = $('[id^="checkbox_"]:checked');
+
+        //     // Update AssignedUserIds hidden input
+        //     const selectedUserIds = Array.from(checkedCheckboxes).map(checkbox => checkbox.value).join('-');
+        //     assignedUserIdsInput.value = selectedUserIds;
+           
+
+
+        //     // document.querySelector('form').submit();
+        // });
+
+
     </script>
+
 
 </body>
 </html>
