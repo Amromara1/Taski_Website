@@ -45,7 +45,7 @@ To get started with the project, follow these steps:
 
 ## Contribution Guidelines
 
-We welcome contributions to enhance the functionality and features of the Task Management System. To contribute, please follow the guidelines outlined in [CONTRIBUTING.md].
+We welcome contributions to enhance the functionality and features of the Task Management System.
 
 ## License
 
